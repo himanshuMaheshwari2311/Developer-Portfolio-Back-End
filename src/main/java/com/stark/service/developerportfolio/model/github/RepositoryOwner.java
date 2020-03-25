@@ -1,23 +1,23 @@
-package com.stark.service.developerportfolio.model;
+package com.stark.service.developerportfolio.model.github;
 
-public class Github {
+public class RepositoryOwner {
 
     private String message;
     private String documentationUrl;
     private String login;
     private Integer id;
-    private String node_id;
-    private String avatar_url;
-    private String url;
     private String html_url;
     private String followers_url;
     private String following_url;
     private String gists_url;
+    private String starred_url;
+    private String subscriptions_url;
+    private String organizations_url;
+    private String repos_url;
+    private String events_url;
+    private String received_events_url;
     private String type;
     private String site_admin;
-    private String name;
-    private String company;
-    private String blog;
 
     public String getMessage() {
         return message;
@@ -49,30 +49,6 @@ public class Github {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNode_id() {
-        return node_id;
-    }
-
-    public void setNode_id(String node_id) {
-        this.node_id = node_id;
-    }
-
-    public String getAvatar_url() {
-        return avatar_url;
-    }
-
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getHtml_url() {
@@ -107,6 +83,54 @@ public class Github {
         this.gists_url = gists_url;
     }
 
+    public String getStarred_url() {
+        return starred_url;
+    }
+
+    public void setStarred_url(String starred_url) {
+        this.starred_url = starred_url;
+    }
+
+    public String getSubscriptions_url() {
+        return subscriptions_url;
+    }
+
+    public void setSubscriptions_url(String subscriptions_url) {
+        this.subscriptions_url = subscriptions_url;
+    }
+
+    public String getOrganizations_url() {
+        return organizations_url;
+    }
+
+    public void setOrganizations_url(String organizations_url) {
+        this.organizations_url = organizations_url;
+    }
+
+    public String getRepos_url() {
+        return repos_url;
+    }
+
+    public void setRepos_url(String repos_url) {
+        this.repos_url = repos_url;
+    }
+
+    public String getEvents_url() {
+        return events_url;
+    }
+
+    public void setEvents_url(String events_url) {
+        this.events_url = events_url;
+    }
+
+    public String getReceived_events_url() {
+        return received_events_url;
+    }
+
+    public void setReceived_events_url(String received_events_url) {
+        this.received_events_url = received_events_url;
+    }
+
     public String getType() {
         return type;
     }
@@ -121,29 +145,5 @@ public class Github {
 
     public void setSite_admin(String site_admin) {
         this.site_admin = site_admin;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getBlog() {
-        return blog;
-    }
-
-    public void setBlog(String blog) {
-        this.blog = blog;
     }
 }
