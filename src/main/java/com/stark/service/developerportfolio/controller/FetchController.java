@@ -31,6 +31,6 @@ public class FetchController {
 
     @PostMapping("/firebase")
     public String testFirebaseDataService() throws ExecutionException, InterruptedException {
-        return dataService.saveUserDetails();
+        return dataService.saveUserDetails("m.himanshu2311@gmail.com");
     }
 }
