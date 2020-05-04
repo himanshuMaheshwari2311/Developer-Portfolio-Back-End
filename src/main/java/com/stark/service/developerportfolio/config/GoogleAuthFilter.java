@@ -4,6 +4,9 @@ package com.stark.service.developerportfolio.config;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,7 @@ import java.util.Collections;
 public class GoogleAuthFilter implements Filter {
 
     private static final JacksonFactory jacksonFactory = new JacksonFactory();
+    private static final HttpTransport httpTransport = new NetHttpTransport();
     private static final String CLIENT_ID = "865958668201-3upung40a7uuidhh47hp34v91rggsgl8.apps.googleusercontent.com";
 
     @Override
@@ -44,7 +48,7 @@ public class GoogleAuthFilter implements Filter {
 
     private boolean authenticateGoogleOauthToken(String googleAuthTokenString) throws GeneralSecurityException, IOException {
 
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(UrlFetchTransport.getDefaultInstance(), jacksonFactory)
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jacksonFactory)
                 .setAudience(Collections.singletonList(CLIENT_ID))
                 .build();
         System.out.println(googleAuthTokenString);
