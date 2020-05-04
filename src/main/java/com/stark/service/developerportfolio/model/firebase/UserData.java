@@ -7,13 +7,8 @@ public class UserData {
 
     private String emailId;
     private String name;
-    private String username;
     private String imageUrl;
-    // Github insight object
-    // Stackoverflow insight object
-    // LinkedIn insight object
-    // medium insight object
-    private List<String> preferenceList;
+    private String googleToken;
 
     public String getEmailId() {
         return emailId;
@@ -31,27 +26,11 @@ public class UserData {
         this.name = name;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public List<String> getPreferenceList() {
-        return preferenceList;
-    }
-
-    public void setPreferenceList(List<String> preferenceList) {
-        this.preferenceList = preferenceList;
     }
 }

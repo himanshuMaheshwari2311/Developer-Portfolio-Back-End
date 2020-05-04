@@ -1,10 +1,12 @@
 package com.stark.service.developerportfolio.controller;
 
 
+import com.stark.service.developerportfolio.model.firebase.UserData;
 import com.stark.service.developerportfolio.model.github.Repository;
 import com.stark.service.developerportfolio.model.github.User;
 import com.stark.service.developerportfolio.service.FetchService;
 import com.stark.service.developerportfolio.service.firebase.DataService;
+import com.stark.service.developerportfolio.service.user.UserFetchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,9 @@ public class FetchController {
     @Autowired
     DataService dataService;
 
+    @Autowired
+    UserFetchService userFetchService;
+
     @PostMapping("/github")
     public List<Repository> fetchUserGithubData(@RequestBody String userName) {
         return githubService.fetch(userName);
@@ -32,5 +37,10 @@ public class FetchController {
     @PostMapping("/firebase")
     public String testFirebaseDataService() throws ExecutionException, InterruptedException {
         return dataService.saveUserDetails("m.himanshu2311@gmail.com");
+    }
+
+    @PostMapping("/getUserData")
+    public UserData  getUserData(@RequestBody UserData userData) {
+        return null;
     }
 }
