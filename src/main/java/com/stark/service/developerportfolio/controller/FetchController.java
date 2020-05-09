@@ -1,35 +1,23 @@
 package com.stark.service.developerportfolio.controller;
 
 
-import com.stark.service.developerportfolio.model.firebase.UserData;
-import com.stark.service.developerportfolio.model.firebase.UserProfileData;
-import com.stark.service.developerportfolio.model.github.Repository;
-import com.stark.service.developerportfolio.service.FetchService;
-import com.stark.service.developerportfolio.service.firebase.DataService;
+import com.stark.service.developerportfolio.model.firestore.UserProfileData;
+import com.stark.service.developerportfolio.model.request.UserDataRequest;
 import com.stark.service.developerportfolio.service.UserFetchService;
+import com.stark.service.developerportfolio.service.firebase.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/user/fetch")
+@RequestMapping("/v1/fetch")
 public class FetchController {
 
     @Autowired
-    FetchService<List<Repository>> githubService;
+    private UserFetchService userFetchService;
 
-    @Autowired
-    DataService dataService;
-
-    @Autowired
-    UserFetchService userFetchService;
-
-    @PostMapping("/getUserData")
-    public UserProfileData getUserData(@RequestBody String emailId) {
-        return userFetchService.fetch(emailId);
+    @PostMapping("/user-data")
+    public UserProfileData getUserData(@RequestBody UserDataRequest userDataRequest, @RequestHeader (name="Authorization") String token) {
+        System.out.println(token);
+        return userFetchService.fetch(userDataRequest.getEmailId());
     }
 }

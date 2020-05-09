@@ -1,4 +1,4 @@
-package com.stark.service.developerportfolio.model.firebase;
+package com.stark.service.developerportfolio.model.firestore;
 
 public class UserProfileData {
     private String userId;

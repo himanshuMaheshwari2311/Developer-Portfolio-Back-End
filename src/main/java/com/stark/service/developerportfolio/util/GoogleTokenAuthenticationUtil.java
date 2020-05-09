@@ -5,8 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.stark.service.developerportfolio.model.firebase.UserProfileData;
-import com.stark.service.developerportfolio.model.github.User;
+import com.stark.service.developerportfolio.model.firestore.UserProfileData;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
