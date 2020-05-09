@@ -20,15 +20,25 @@ public class GoogleAuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String authToken = request.getHeader("Authorization").split(" ")[1];
-        try {
-            if(!GoogleTokenAuthenticationUtil.authenticateGoogleOauthToken(authToken)) {
-                ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.addHeader("Access-Control-Allow-Methods", "*");
+
+        if (request.getHeader("Authorization") != null) {
+            String authToken = request.getHeader("Authorization").split(" ")[1];
+            try {
+                if (!GoogleTokenAuthenticationUtil.authenticateGoogleOauthToken(authToken)) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+                }
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
             }
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
+            //TODO: externalize the Allow-Origin
+
+            filterChain.doFilter(request, response);
+
         }
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
