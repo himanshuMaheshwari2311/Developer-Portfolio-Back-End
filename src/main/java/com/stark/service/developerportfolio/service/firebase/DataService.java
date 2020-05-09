@@ -6,9 +6,12 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import com.stark.service.developerportfolio.Storeable;
+import com.stark.service.developerportfolio.model.firestore.FirestoreData;
 import com.stark.service.developerportfolio.model.firestore.UserProfileData;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -25,14 +28,14 @@ public class DataService {
         return true;
     }
 
-    public boolean create(String collectionId, String documentId, UserProfileData userProfileData) {
+    public boolean create(String collectionId, String documentId, FirestoreData<Storeable> userProfileData) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).set(userProfileData);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).set(userProfileData.getFirestoreData());
         System.out.println("CollectionsApi" + collectionsApiFuture);
         return true;
     }
 
-    public UserProfileData read(String collectionId, String documentId) {
+    public FirestoreData read(String collectionId, String documentId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection(collectionId).document(documentId);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
@@ -47,10 +50,10 @@ public class DataService {
             e.printStackTrace();
         }
 
-        UserProfileData user = null;
+        FirestoreData<Storeable> user = null;
 
         if(document.exists()) {
-            user = document.toObject(UserProfileData.class);
+//            user = document.toObject(UserProfileData.class);
             return user;
         }else {
             return null;

@@ -16,8 +16,7 @@ public class FetchController {
     private UserFetchService userFetchService;
 
     @PostMapping("/user-data")
-    public UserProfileData getUserData(@RequestBody UserDataRequest userDataRequest, @RequestHeader (name="Authorization") String token) {
-        System.out.println(token);
+    public UserProfileData getUserData(@RequestBody UserDataRequest userDataRequest) {
         return userFetchService.fetch(userDataRequest.getEmailId());
     }
 }

@@ -1,6 +1,8 @@
 package com.stark.service.developerportfolio.model.firestore;
 
-public class UserProfileData {
+import com.stark.service.developerportfolio.Storeable;
+
+public class UserProfileData implements Storeable {
     private String userId;
     private String email;
     private String name;
