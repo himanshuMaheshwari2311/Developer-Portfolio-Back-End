@@ -18,7 +18,6 @@ public class UpdateController {
 
     @PostMapping("/update-profile")
     public String updateProfile(@RequestBody ProfileData profileData) {
-        System.out.println(profileData.toString());
         return profileUpdateService.update(profileData) ? "Updated Profile" : "Profile Update Failed";
     }
 
