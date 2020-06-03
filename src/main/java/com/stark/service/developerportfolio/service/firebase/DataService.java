@@ -6,7 +6,10 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import com.stark.service.developerportfolio.model.firestore.UserProfileData;
+import com.stark.service.developerportfolio.Storeable;
+import com.stark.service.developerportfolio.model.firestore.FirestoreData;
+import com.stark.service.developerportfolio.model.firestore.ProfileData;
+import com.stark.service.developerportfolio.util.FirestoreCollectionConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
@@ -25,14 +28,13 @@ public class DataService {
         return true;
     }
 
-    public boolean create(String collectionId, String documentId, UserProfileData userProfileData) {
+    public boolean create(String collectionId, String documentId, FirestoreData<Storeable> data) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).set(userProfileData);
-        System.out.println("CollectionsApi" + collectionsApiFuture);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).set(data.getFirestoreData());
         return true;
     }
 
-    public UserProfileData read(String collectionId, String documentId) {
+    public FirestoreData read(String collectionId, String documentId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection(collectionId).document(documentId);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
@@ -47,26 +49,24 @@ public class DataService {
             e.printStackTrace();
         }
 
-        UserProfileData user = null;
-
-        if(document.exists()) {
-            user = document.toObject(UserProfileData.class);
-            return user;
-        }else {
+        if(FirestoreCollectionConstants.USERDATA.equals(collectionId) && document.exists()) {
+            ProfileData profileData = document.toObject(ProfileData.class);
+            return FirestoreData.of(profileData);
+        }
+        else {
             return null;
         }
     }
 
-    public String update(String collectionId, String documentId, Object data) throws InterruptedException, ExecutionException {
+    public String update(String collectionId, String documentId, FirestoreData<Storeable> data) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).set(data);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).set(data.getFirestoreData());
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public String delete(String collectionId, String documentId) {
+    public String delete(String collectionId, String documentId) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = dbFirestore.collection(collectionId).document(documentId).delete();
-        System.out.println("WriteResult: " + writeResult);
-        return "Document with ID " + documentId + " has been deleted";
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(collectionId).document(documentId).delete();
+        return collectionsApiFuture.get().getUpdateTime().toString();
     }
 }
