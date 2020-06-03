@@ -1,30 +1,24 @@
 package com.stark.service.developerportfolio.controller;
 
-
-import com.stark.service.developerportfolio.model.firestore.UserProfileData;
+import com.stark.service.developerportfolio.model.firestore.ProfileData;
 import com.stark.service.developerportfolio.model.request.UserDataRequest;
 import com.stark.service.developerportfolio.service.ProfileFetchService;
-import com.stark.service.developerportfolio.service.UserFetchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/fetch")
+@RequestMapping("/v1")
 public class FetchController {
-
-    @Autowired
-    private UserFetchService userFetchService;
 
     @Autowired
     private ProfileFetchService profileFetchService;
 
-    @PostMapping("/user-data")
-    public UserProfileData getUserData(@RequestBody UserDataRequest userDataRequest) {
-        return userFetchService.fetch(userDataRequest.getEmailId());
-    }
 
-    @GetMapping("/build-profile")
-    public void buildProfile(@RequestBody UserDataRequest userDataRequest) {
-        profileFetchService.fetch(userDataRequest.getEmailId());
+    @GetMapping("/get-profile")
+    public ProfileData getProfile(@RequestBody UserDataRequest userDataRequest) {
+        return profileFetchService.fetch(userDataRequest.getEmailId());
     }
 }

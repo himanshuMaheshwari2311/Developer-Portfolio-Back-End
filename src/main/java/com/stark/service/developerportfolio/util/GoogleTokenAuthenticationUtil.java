@@ -5,7 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.stark.service.developerportfolio.model.firestore.UserProfileData;
+import com.stark.service.developerportfolio.model.firestore.ProfileData;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -15,13 +15,16 @@ public class GoogleTokenAuthenticationUtil {
     private static final JacksonFactory jacksonFactory = new JacksonFactory();
     private static final HttpTransport httpTransport = new NetHttpTransport();
     private static final String CLIENT_ID = "865958668201-3upung40a7uuidhh47hp34v91rggsgl8.apps.googleusercontent.com";
-    private static UserProfileData userProfileData;
+    private static ProfileData profileData;
+    private static final String NAME = "name";
+    private static final String PICTURE = "picture";
+
 
     public static boolean authenticateGoogleOauthToken(String googleAuthTokenString) throws GeneralSecurityException, IOException {
         boolean emailVerified = false;
 
-        if(userProfileData == null) {
-            userProfileData = new UserProfileData();
+        if(profileData == null) {
+            profileData = new ProfileData();
         }
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(httpTransport, jacksonFactory)
                 .setAudience(Collections.singletonList(CLIENT_ID))
@@ -32,19 +35,18 @@ public class GoogleTokenAuthenticationUtil {
         if (idToken != null) {
             GoogleIdToken.Payload payload = idToken.getPayload();
 
-            userProfileData.setEmail(payload.getSubject());
-            userProfileData.setEmail(payload.getEmail());
-            userProfileData.setName((String) payload.get("name"));
-            userProfileData.setPictureUrl((String) payload.get("picture"));
-            userProfileData.setLocale((String) payload.get("locale"));
+            profileData.setEmailId(payload.getSubject());
+            profileData.setEmailId(payload.getEmail());
+            profileData.setName((String) payload.get(NAME));
+            profileData.setPictureUrl((String) payload.get(PICTURE));
             emailVerified = Boolean.valueOf(payload.getEmailVerified());
-            System.out.println(userProfileData.toString());
+
         }
         return emailVerified;
     }
 
-    public static UserProfileData getUserProfileData() {
-        return userProfileData;
+    public static ProfileData getprofileData() {
+        return profileData;
     }
 
 }
