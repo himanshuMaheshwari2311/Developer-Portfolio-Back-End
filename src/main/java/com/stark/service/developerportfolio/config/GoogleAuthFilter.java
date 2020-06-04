@@ -24,7 +24,6 @@ public class GoogleAuthFilter implements Filter {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.addHeader("Access-Control-Allow-Methods", "*");
-
         if (request.getHeader("Authorization") != null) {
             String authToken = request.getHeader("Authorization").split(" ")[1];
             try {
@@ -34,10 +33,15 @@ public class GoogleAuthFilter implements Filter {
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
             }
+
+            System.out.println(request.getRequestURI());
             //TODO: externalize the Allow-Origin
 
             filterChain.doFilter(request, response);
 
+        }
+        else if(request.getRequestURI().contains("swagger") || request.getRequestURI().contains("api-docs")) {
+            filterChain.doFilter(request, response);
         }
     }
 
